@@ -2,6 +2,7 @@ FROM jlesage/baseimage-gui:alpine-3.6
 
 MAINTAINER Anne Fouilloux, annefou@geo.uio.no
 
+#RUN useradd -r -u 1000 appuser && groupmod -g 1001 appuser
 # Install xterm.
 RUN apk update && \
     apk add ca-certificates wget xterm openjdk8-jre && \
@@ -13,19 +14,21 @@ COPY startapp.sh /startapp.sh
 # Set the name of the application.
 ENV APP_NAME="Panoply"
 
+ENV KEEP_APP_RUNNING=0
+
 # Set environment
 
 ENV JAVA_HOME /opt/jdk
 
 ENV PATH ${PATH}:${JAVA_HOME}/bin   
 
-COPY colorbars.tar /opt/colorbars.tar
-
-RUN mkdir /opt/data && cd /opt && \ 
+RUN cd /opt && \ 
     wget https://www.giss.nasa.gov/tools/panoply/download/PanoplyJ-4.11.0.tgz && \
     tar zxvf PanoplyJ-4.11.0.tgz && \
-    rm -rf PanoplyJ-4.11.0.tgz  && \
-    cd /opt/PanoplyJ && tar xvf /opt/colorbars.tar 
+    rm -rf PanoplyJ-4.11.0.tgz 
 
-WORKDIR /opt/data
+COPY panoply.sh /opt/PanoplyJ/panoply.sh
 
+RUN chmod uog+x /opt/PanoplyJ/panoply.sh
+
+WORKDIR /config
