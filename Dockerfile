@@ -29,6 +29,8 @@ RUN cd /opt && \
 
 COPY panoply.sh /opt/PanoplyJ/panoply.sh
 
+COPY colorbars.tar /opt/PanoplyJ/colorbars.tar
+
 RUN chmod uog+x /opt/PanoplyJ/panoply.sh
 
 WORKDIR /config
