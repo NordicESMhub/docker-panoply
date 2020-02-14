@@ -2,7 +2,6 @@ FROM jlesage/baseimage-gui:alpine-3.6
 
 MAINTAINER Anne Fouilloux, annefou@geo.uio.no
 
-#RUN useradd -r -u 1000 appuser && groupmod -g 1001 appuser
 # Install xterm.
 RUN apk update && \
     apk add ca-certificates wget xterm openjdk8-jre && \
@@ -15,6 +14,8 @@ COPY startapp.sh /startapp.sh
 ENV APP_NAME="Panoply"
 
 ENV KEEP_APP_RUNNING=0
+
+ENV TAKE_CONFIG_OWNERSHIP=1
 
 # Set environment
 
