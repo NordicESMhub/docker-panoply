@@ -25,14 +25,17 @@ ENV JAVA_HOME /opt/jdk
 
 ENV PATH ${PATH}:${JAVA_HOME}/bin   
 
+
+COPY panoply_4.5.1.tgz /opt/panoply_4.5.1.tgz
+
 RUN cd /opt && \ 
-    wget https://www.giss.nasa.gov/tools/panoply/download/PanoplyJ-4.11.0.tgz && \
-    tar zxvf PanoplyJ-4.11.0.tgz && \
-    rm -rf PanoplyJ-4.11.0.tgz 
+    tar zxvf panoply_4.5.1.tgz && \
+    rm -rf panoply_4.5.1.tgz
+
+COPY colorbars.tar /opt/PanoplyJ/colorbars.tar
 
 COPY panoply.sh /opt/PanoplyJ/panoply.sh
 
-COPY colorbars.tar /opt/PanoplyJ/colorbars.tar
 
 RUN chmod uog+x /opt/PanoplyJ/panoply.sh
 
