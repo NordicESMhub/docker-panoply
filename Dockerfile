@@ -1,14 +1,25 @@
-FROM jlesage/baseimage-gui:alpine-3.6
+FROM jlesage/baseimage-gui:ubuntu-18.04 AS build
 
 MAINTAINER Anne Fouilloux, annefou@geo.uio.no
 
-# Install xterm.
-RUN apk update && \
-    apk add ca-certificates wget xterm openjdk8-jre && \
-            update-ca-certificates  
+# Get packages including Java
+RUN apt-get update -y && \
+     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+         ca-certificates \
+         openjdk-11-jdk openjdk-11-jre \
+         vim \
+         wget \
+         file \
+         libcurl4-openssl-dev && \
+     rm -rf /var/lib/apt/lists/*
 
 # Copy the start script.
 COPY startapp.sh /startapp.sh
+
+# Generate and install favicons.
+RUN \
+    APP_ICON_URL=https://github.com/NordicESMhub/docker-panoply/raw/master/panoply-app-icon.png && \
+    install_app_icon.sh "$APP_ICON_URL"
 
 # Set the name of the application.
 ENV APP_NAME="Panoply"
@@ -17,8 +28,6 @@ ENV KEEP_APP_RUNNING=0
 
 ENV TAKE_CONFIG_OWNERSHIP=1
 
-#ENV SECURE_CONNECTION=1
-
 # Set environment
 
 ENV JAVA_HOME /opt/jdk
@@ -26,11 +35,11 @@ ENV JAVA_HOME /opt/jdk
 ENV PATH ${PATH}:${JAVA_HOME}/bin   
 
 
-COPY panoply_4.5.1.tgz /opt/panoply_4.5.1.tgz
+COPY PanoplyJ-4.12.5.tgz /opt/PanoplyJ-4.12.5.tgz
 
 RUN cd /opt && \ 
-    tar zxvf panoply_4.5.1.tgz && \
-    rm -rf panoply_4.5.1.tgz
+    tar zxvf PanoplyJ-4.12.5.tgz && \
+    rm -rf PanoplyJ-4.12.5.tgz
 
 COPY colorbars.tar /opt/PanoplyJ/colorbars.tar
 
