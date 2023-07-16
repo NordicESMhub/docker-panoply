@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:ubuntu-18.04 AS build
+FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS build
 
 MAINTAINER Anne Fouilloux, annefou@geo.uio.no
 
