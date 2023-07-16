@@ -1,6 +1,6 @@
 FROM jlesage/baseimage-gui:ubuntu-22.04-v4 AS build
 
-MAINTAINER Anne Fouilloux, annefou@geo.uio.no
+MAINTAINER Anne Fouilloux, annef@simula.no
 
 # Get packages including Java
 RUN apt-get update -y && \
